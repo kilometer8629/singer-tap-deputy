@@ -38,7 +38,7 @@ def sync_stream(client, catalog, state, start_date, stream, mdata):
     stream_name = stream.tap_stream_id
     last_datetime = get_bookmark(state, stream_name, start_date)
 
-    LOGGER.info('{} - Syncing data since {}'.format(stream.tap_stream_id, last_datetime))
+    LOGGER.info(f'{stream.tap_stream_id} - Syncing data since {last_datetime}')
 
     write_schema(stream)
 
@@ -66,9 +66,10 @@ def sync_stream(client, catalog, state, start_date, stream, mdata):
         }
 
         records = client.post(
-            '/api/v1/resource/{}/QUERY'.format(resource_name),
+            f'/api/v1/resource/{resource_name}/QUERY',
             json=query_params,
-            endpoint=stream_name)
+            endpoint=stream_name,
+        )
 
         if len(records) < count:
             has_more = False
