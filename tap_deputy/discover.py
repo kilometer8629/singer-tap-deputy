@@ -72,8 +72,8 @@ TYPE_MAP = {
 
 def get_schema(client, resource_name):
     data = client.get(
-        '/api/v1/resource/{}/INFO'.format(resource_name),
-        endpoint='resource_info')
+        f'/api/v1/resource/{resource_name}/INFO', endpoint='resource_info'
+    )
 
     properties = {}
     metadata = [

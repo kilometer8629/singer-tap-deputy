@@ -59,12 +59,12 @@ class DeputyClient(object):
                           factor=2)
     def request(self, method, path=None, url=None, auth_call=False, **kwargs):
         if auth_call == False and \
-            (self.__access_token is None or \
-             self.__expires_at <= datetime.utcnow()):
+                (self.__access_token is None or \
+                 self.__expires_at <= datetime.utcnow()):
             self.refresh()
 
         if url is None and path:
-            url = 'https://{}{}'.format(self.__domain, path)
+            url = f'https://{self.__domain}{path}'
 
         if 'endpoint' in kwargs:
             endpoint = kwargs['endpoint']
@@ -75,7 +75,7 @@ class DeputyClient(object):
         if 'headers' not in kwargs:
             kwargs['headers'] = {}
 
-        kwargs['headers']['Authorization'] = 'OAuth {}'.format(self.__access_token)
+        kwargs['headers']['Authorization'] = f'OAuth {self.__access_token}'
 
         if self.__user_agent:
             kwargs['headers']['User-Agent'] = self.__user_agent
